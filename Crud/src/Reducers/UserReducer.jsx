@@ -7,8 +7,8 @@ const UserSlice = createSlice({
     initialState: UserList,
     reducers: {
         addUser: (state, action) => {
-            console.log(action);
-            // state.push(action.payload)
+            // console.log(action);
+            state.push(action.payload)
         },
         // deleteUser: (state, action) => {
         //     return state.filter(user => user.id !== action.payload)

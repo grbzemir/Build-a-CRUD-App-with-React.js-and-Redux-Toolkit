@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { addUser } from './Reducers/UserReducer';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const Create = () => {
 
@@ -14,11 +15,9 @@ const Create = () => {
     {
         // Sayfa yenilemeyi engeller
         e.preventDefault();
-        dispatch(addUser({ id: users[users.length - 1].id + 1, user, name, email }))
-
+        dispatch(addUser({ id: users[users.length - 1].id + 1, name, email }))
+        Navigate('/')
     }
-
-
 
 
     return (
