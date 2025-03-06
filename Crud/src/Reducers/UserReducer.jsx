@@ -10,13 +10,23 @@ const UserSlice = createSlice({
             // console.log(action);
             state.push(action.payload)
         },
-        // deleteUser: (state, action) => {
-        //     return state.filter(user => user.id !== action.payload)
-        // },
-        // updateUser: (state, action) => {
-        //     const index = state.findIndex(user => user.id === action.payload.id)
-        //     state[index] = action.payload
-        // }
+        deleteUser: (state, action) => {
+            const { id, name, email } = action.payload
+            const uu = state.find(user => user.id === id)
+            if (uu) {
+                return state.filter(f => f.id !== id)
+            }
+        },
+        updateUser: (state, action) => {
+            const { id, name, email } = action.payload
+            const uu = state.find(user => user.id === id)
+
+            if (uu) {
+                uu.name = name;
+                uu.email = email;
+            }
+
+        }
     }
 })
 

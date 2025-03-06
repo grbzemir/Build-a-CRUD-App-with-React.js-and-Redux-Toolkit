@@ -2,18 +2,20 @@ import React from 'react'
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom'
 import { useState } from 'react';
-import { updateUser } from './Reducers/UserReducer';
+// import { updateUser } from './Reducers/UserReducer';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const Update = () => {
 
     const { id } = useParams();
     const users = useSelector((state) => state.users);
-    const existingUser = users.filter(f => f.id === id);
+    const existingUser = users.filter(f => f.id === Number(id));
     const { name, email } = existingUser[0];
     const [uname, setName] = useState(name);
     const [uemail, setEmail] = useState(email);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleUpdate = (e) => {
         e.preventDefault();
@@ -23,6 +25,7 @@ const Update = () => {
                 name: uname,
                 email: uemail
             }))
+        navigate('/');
     }
 
     return (
@@ -38,7 +41,7 @@ const Update = () => {
                     <div>
                         <label htmlFor="email">Email:</label>
                         <input type="email" name="email" className="form-control" placeholder="Enter Email"
-                            value={uemail} onChange={e => setName(e.target.value)} />
+                            value={uemail} onChange={e => setEmail(e.target.value)} />
                     </div>
                     <br />
                     <button className="btn btn-info">Update</button>

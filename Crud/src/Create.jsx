@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { addUser } from './Reducers/UserReducer';
+// import { addUser } from './Reducers/UserReducer';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
@@ -11,13 +11,15 @@ const Create = () => {
     const users = useSelector((state) => state.users);
     const dispatch = useDispatch();
 
-    const handleSubmit = { e }
-    {
-        // Sayfa yenilemeyi engeller
+    const navigate = useNavigate();
+
+    const handleSubmit = (e) => {
+        //Sayfa yenilenmesini engellemek için preventDefault kullanılır
         e.preventDefault();
-        dispatch(addUser({ id: users[users.length - 1].id + 1, name, email }))
-        Navigate('/')
-    }
+        dispatch(addUser({ id: users[users.length - 1]?.id + 1 || 1, name, email }));
+        navigate('/');
+    };
+
 
 
     return (
