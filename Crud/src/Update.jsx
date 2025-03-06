@@ -2,7 +2,8 @@ import React from 'react'
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom'
 import { useState } from 'react';
-
+import { updateUser } from './Reducers/UserReducer';
+import { useDispatch } from 'react-redux';
 
 const Update = () => {
 
@@ -12,10 +13,11 @@ const Update = () => {
     const { name, email } = existingUser[0];
     const [uname, setName] = useState(name);
     const [uemail, setEmail] = useState(email);
+    const dispatch = useDispatch();
 
     const handleUpdate = (e) => {
         e.preventDefault();
-        // dispatch(updateUser({ id, name: uname, email: uemail }))
+        dispatch(updateUser({ id, name: uname, email: uemail }))
     }
 
     return (
