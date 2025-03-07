@@ -1,49 +1,57 @@
-import React, { useState } from 'react'
-// import { addUser } from './Reducers/UserReducer';
+import React, { useState } from 'react';
+import { addUser } from './Reducers/UserReducer';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Create = () => {
-
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const users = useSelector((state) => state.users);
     const dispatch = useDispatch();
-
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
-        //Sayfa yenilenmesini engellemek için preventDefault kullanılır
+        // Sayfa yenilenmesini engellemek için preventDefault kullanılır
         e.preventDefault();
         dispatch(addUser({ id: users[users.length - 1]?.id + 1 || 1, name, email }));
         navigate('/');
     };
 
-
-
     return (
-        <div className='d-flex w-100 vh-100 justify-content-center align-items-center'>
-            <div className='w-50 border bg-secondary text-white p-5'>
-                <h3>Add New User</h3>
+        <div className="d-flex w-100 vh-100 justify-content-center align-items-center bg-light">
+            <div className="w-75 p-5 shadow-lg rounded bg-white">
+                <h3 className="text-center mb-4 text-primary">Add New User</h3>
                 <form onSubmit={handleSubmit}>
-                    <div>
-                        <label htmlFor="name">Name:</label>
-                        <input type="text" name="name" className="form-control" placeholder="Enter Name"
-                            onChange={e => setName(e.target.value)} />
-
+                    <div className="mb-3">
+                        <label htmlFor="name" className="form-label">Name:</label>
+                        <input
+                            type="text"
+                            name="name"
+                            className="form-control"
+                            placeholder="Enter Name"
+                            onChange={(e) => setName(e.target.value)}
+                            required
+                        />
                     </div>
-                    <div>
-                        <label htmlFor="email">Email:</label>
-                        <input type="email" name="email" className="form-control" placeholder="Enter Email"
-                            onChange={e => setEmail(e.target.value)} />
+                    <div className="mb-3">
+                        <label htmlFor="email" className="form-label">Email:</label>
+                        <input
+                            type="email"
+                            name="email"
+                            className="form-control"
+                            placeholder="Enter Email"
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
                     </div>
-                    <br />
-                    <button className="btn btn-info">Submit</button>
+                    <div className="d-grid gap-2">
+                        <button className="btn btn-primary">Submit</button>
+                    </div>
                 </form>
-            </div >
-        </div >
-    )
-}
+            </div>
+        </div>
+    );
+};
 
-export default Create
+export default Create;
