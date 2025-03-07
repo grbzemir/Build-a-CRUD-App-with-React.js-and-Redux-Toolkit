@@ -1,54 +1,77 @@
-import React from 'react'
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom'
-import { useState } from 'react';
-// import { updateUser } from './Reducers/UserReducer';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
+import { updateUser } from './Reducers/UserReducer';
 
 const Update = () => {
-
     const { id } = useParams();
-    const users = useSelector((state) => state.users);
-    const existingUser = users.filter(f => f.id === Number(id));
-    const { name, email } = existingUser[0];
-    const [uname, setName] = useState(name);
-    const [uemail, setEmail] = useState(email);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleUpdate = (e) => {
-        e.preventDefault();
-        dispatch(updateUser(
-            {
-                id,
-                name: uname,
-                email: uemail
-            }))
+    // Redux state üzerinden kullanıcıyı al
+    const user = useSelector((state) => state.users.find((user) => user.id === Number(id)));
+
+    // Eğer kullanıcı bulunmazsa yönlendir
+    if (!user) {
         navigate('/');
     }
 
-    return (
-        <div className='d-flex w-100 vh-100 justify-content-center align-items-center'>
-            <div className='w-50 border bg-secondary text-white p-5'>
-                <h3>Update User</h3>
-                <form onSubmit={handleUpdate}>
-                    <div>
-                        <label htmlFor="name">Name:</label>
-                        <input type="text" name="name" className="form-control" placeholder="Enter Name"
-                            value={uname} onChange={e => setName(e.target.value)} />
-                    </div>
-                    <div>
-                        <label htmlFor="email">Email:</label>
-                        <input type="email" name="email" className="form-control" placeholder="Enter Email"
-                            value={uemail} onChange={e => setEmail(e.target.value)} />
-                    </div>
-                    <br />
-                    <button className="btn btn-info">Update</button>
-                </form>
-            </div >
-        </div >
-    )
-}
+    // Formu kontrol etmek için state
+    const [uname, setName] = useState(user.name);
+    const [uemail, setEmail] = useState(user.email);
 
-export default Update
+    useEffect(() => {
+        setName(user.name);
+        setEmail(user.email);
+    }, [user]);
+
+    const handleUpdate = (e) => {
+        e.preventDefault();
+
+        // Redux action ile kullanıcıyı güncelle
+        dispatch(updateUser({
+            id: Number(id),
+            name: uname,
+            email: uemail
+        }));
+
+        navigate('/');
+    };
+
+    return (
+        <div className='container d-flex w-100 vh-100 justify-content-center align-items-center'>
+            <div className='w-75 p-5 shadow-lg rounded bg-white'>
+                <h3 className='text-center mb-4'>Update User</h3>
+                <form onSubmit={handleUpdate}>
+                    <div className='mb-3'>
+                        <label htmlFor="name" className="form-label">Name:</label>
+                        <input
+                            type="text"
+                            name="name"
+                            className="form-control"
+                            placeholder="Enter Name"
+                            value={uname}
+                            onChange={e => setName(e.target.value)}
+                        />
+                    </div>
+                    <div className='mb-3'>
+                        <label htmlFor="email" className="form-label">Email:</label>
+                        <input
+                            type="email"
+                            name="email"
+                            className="form-control"
+                            placeholder="Enter Email"
+                            value={uemail}
+                            onChange={e => setEmail(e.target.value)}
+                        />
+                    </div>
+                    <div className="d-grid gap-2">
+                        <button className="btn btn-info">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    );
+};
+
+export default Update;

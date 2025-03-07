@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import userReducer from '../Reducers/userReducer';
+import UserReducer from '../Reducers/UserReducer';
 
 
 
@@ -7,7 +7,7 @@ import userReducer from '../Reducers/userReducer';
 const store = configureStore({
     reducer: {
         //store da stateler tutulur ve reducerları parametre olarak alır
-        users: userReducer
+        users: UserReducer
 
     }
 })
